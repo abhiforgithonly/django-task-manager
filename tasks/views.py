@@ -74,7 +74,7 @@ def get_weather(request, city):
             'debug_info': str(e)
         }, status=500)
     
-    # Construct API URL
+    # API URL
     url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
     print(f"Making request to OpenWeatherMap API...")
     print(f"City parameter: {city}")
@@ -216,7 +216,7 @@ def task_analytics(request):
             'created_at': task.created_at.isoformat(),
         } for task in recent_tasks]
         
-        # Create visualization only if we have tasks
+        # Create visualization 
         chart_image = None
         if total_tasks > 0:
             try:
@@ -418,4 +418,5 @@ def debug_config(request):
             'error': 'Debug endpoint failed',
             'details': str(e),
             'timestamp': timezone.now().isoformat(),
+
         }, status=500)
