@@ -8,7 +8,7 @@ router.register(r'tasks', views.TaskViewSet)
 urlpatterns = [
     path('api/', include(router.urls)),
     
-    # Weather endpoints - both with and without trailing slash
+    # Weather endpoints 
     path('api/weather/<str:city>/', views.get_weather, name='weather'),
     path('api/weather/<str:city>', views.get_weather, name='weather_no_slash'),
     
