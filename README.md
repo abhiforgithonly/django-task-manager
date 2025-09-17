@@ -270,13 +270,73 @@ taskmanager/
    - Generate an API key
    - Replace `your-openweathermap-api-key-here` with your actual key
 
-6. **Configure Django Settings**
+6. **⚠️ IMPORTANT: Replace Django Settings Configuration**
    
-   The project `settings.py` has been pre-configured with:
-   - Supabase database connection via `dj_database_url`
-   - CORS headers for API access
-   - REST Framework configuration
-   - Environment variable integration via `python-decouple`
+   **After setting up your basic Django project, you MUST replace the default `settings.py` with the one provided in this repository.**
+   
+   The default Django `settings.py` file created by `django-admin startproject` will not work with this application because it lacks the necessary configurations for:
+   - Supabase database integration
+   - Django REST Framework
+   - CORS headers
+   - Third-party API configurations
+   - Required apps and middleware
+   
+   **Steps to replace settings.py:**
+   
+   ```bash
+   # Navigate to your Django project directory
+   cd taskmanager
+   
+   # Backup the original settings.py (optional)
+   cp taskmanager/settings.py taskmanager/settings_original.py
+   
+   # Replace with the repository's settings.py
+   # Copy the settings.py from this repository to taskmanager/settings.py
+   ```
+   
+   **The repository's `settings.py` includes all necessary configurations:**
+   ```python
+   INSTALLED_APPS = [
+       'django.contrib.admin',
+       'django.contrib.auth',
+       'django.contrib.contenttypes',
+       'django.contrib.sessions',
+       'django.contrib.messages',
+       'django.contrib.staticfiles',
+       'rest_framework',        # Required for API functionality
+       'corsheaders',          # Required for frontend-backend communication
+       'tasks',                # Our custom task management app
+   ]
+   
+   # Supabase PostgreSQL database configuration
+   DATABASES = {
+       'default': dj_database_url.config(
+           default=config('DATABASE_URL')
+       )
+   }
+   
+   # CORS configuration for API access
+   CORS_ALLOWED_ORIGINS = [
+       "http://localhost:3000",
+       "http://127.0.0.1:3000",
+       "http://localhost:8000",
+       "http://127.0.0.1:8000",
+   ]
+   
+   # REST Framework configuration
+   REST_FRAMEWORK = {
+       'DEFAULT_PERMISSION_CLASSES': [
+           'rest_framework.permissions.AllowAny',
+       ]
+   }
+   ```
+   
+   **⚠️ Without replacing the settings.py file, you will encounter errors such as:**
+   - `ModuleNotFoundError: No module named 'rest_framework'`
+   - Database connection failures
+   - CORS errors when accessing the API
+   - Missing middleware errors
+   - Third-party API integration failures
 
 7. **Set up the database**
    ```bash
@@ -497,6 +557,14 @@ DATABASE_URL=postgresql://postgres:[PASSWORD]@[HOST]:5432/postgres
      ```
    - Verify tables were created in Supabase dashboard
 
+7. **Settings Configuration Errors**
+   - **Error**: `ModuleNotFoundError: No module named 'rest_framework'`
+   - **Solution**: Make sure you replaced the default `settings.py` with the one from this repository
+   - **Error**: Database connection fails
+   - **Solution**: Verify the repository's `settings.py` includes the `dj_database_url` configuration
+   - **Error**: CORS errors in browser
+   - **Solution**: Confirm the `settings.py` includes `corsheaders` in `INSTALLED_APPS` and proper `CORS_ALLOWED_ORIGINS`
+
 ### Debug Commands
 
 ```bash
@@ -596,8 +664,9 @@ If you encounter any issues:
 
 1. Check the troubleshooting section above
 2. Verify your `.env` configuration
-3. Test API endpoints individually
-4. Check browser console for JavaScript errors
+3. Ensure you replaced the default `settings.py` with the repository's version
+4. Test API endpoints individually
+5. Check browser console for JavaScript errors
 
 ## 🎯 Future Enhancements
 
