@@ -706,7 +706,6 @@ python manage.py dbshell  # Should connect to your Supabase database
 - ✅ Firefox 75+
 - ✅ Safari 13+
 - ✅ Edge 80+
-- ✅ Mobile browsers (iOS Safari, Chrome Mobile)
 
 ## 🔒 Security Notes
 
